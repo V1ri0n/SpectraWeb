@@ -418,8 +418,8 @@ export class ZenLibrarySpaceRoutingSection extends ZenLibrarySearchSection {
             .value=${draft.reference}
             placeholder=${
               draft.matchType === "regex"
-                ? "zen-browser\\.app"
-                : "zen-browser.app"
+                ? "example\\.com"
+                : "example.com"
             }
             ?invalid=${!!draft.reference.trim() && !this.#draftIsValid}
             @input=${event => {
