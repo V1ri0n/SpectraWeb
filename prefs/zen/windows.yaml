@@ -3,8 +3,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 # Mica effect preferences for Windows
+# Spectra Web: off by default. With Mica on, the window stays transparent over a black
+# backdrop on Windows 11 build 26200 (dark text on black in the Windows light theme).
 - name: widget.windows.mica
-  value: true
+  value: false
   condition: "defined(XP_WIN)"
 
 # 1 = DWMSBT_MAINWINDOW
