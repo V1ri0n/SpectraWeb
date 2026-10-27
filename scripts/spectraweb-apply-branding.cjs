@@ -23,6 +23,24 @@ branding
     const to = path.join(process.cwd(), 'engine/browser/branding', brand, 'pref/firefox-branding.js')
     fs.copyFileSync(from, to)
     console.log(`branding "${brand}" applied; firefox-branding.js replaced: ${to}`)
+
+    // Surfer's branding.nsi points the "Programs and Features" links (about, help, update info) and the
+    // manual download page at zen-browser.app / the Zen repo.
+    const nsi = path.join(process.cwd(), 'engine/browser/branding', brand, 'branding.nsi')
+    const fork = 'https://github.com/V1ri0n/SpectraWeb'
+    let text = fs.readFileSync(nsi, 'utf8')
+    const replacements = [
+      ['"https://zen-browser.app/release-notes/${AppVersion}"', `"${fork}/releases"`],
+      ['"https://github.com/zen-browser/desktop/issues"', `"${fork}/issues"`],
+      ['"https://zen-browser.app/download"', `"${fork}/releases"`],
+      ['"https://zen-browser.app"', `"${fork}"`],
+    ]
+    for (const [oldText, newText] of replacements) {
+      if (!text.includes(oldText)) console.warn(`branding.nsi: not found (already replaced?): ${oldText}`)
+      text = text.split(oldText).join(newText)
+    }
+    fs.writeFileSync(nsi, text)
+    console.log(`branding.nsi links replaced: ${nsi}`)
   })
   .catch((e) => {
     console.error('ERR', e.stack || e.message)
